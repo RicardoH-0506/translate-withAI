@@ -7,8 +7,6 @@ import { ArrowsIcons } from './components/Icons'
 import { LanguageSelector } from './components/LanguageSelector'
 import { TextArea } from './components/TextArea'
 import { SectionType } from './types.d'
-import { useEffect } from 'react'
-import { useDebounce } from './hooks/useDebounce'
 
 function App () {
   const {
@@ -24,42 +22,9 @@ function App () {
     setResult
   } = useStore()
 
-  // Aplica debounce al texto de entrada
-  const debouncedText = useDebounce(fromText, 500)
-
-  useEffect(() => {
-    // No llamar si no hay texto
-    if (!debouncedText) {
-      return
-    }
-
-    // Llama a la API de traducción
-    const fetchTranslation = async () => {
-      try {
-        const response = await fetch('http://localhost:1234/translate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fromLang,
-            toLang,
-            text: debouncedText
-          })
-        })
-        const data = await response.json()
-        const textoTraducido = data.translatedText?.[0]?.text ?? ''
-        setResult(textoTraducido)
-      } catch (error) {
-        setResult('Error al traducir')
-      }
-    }
-
-    fetchTranslation()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedText, fromLang, toLang])
-
   return (
     <Container fluid>
-      <h2>Google Translate Clon</h2>
+      <h2 className='text-center my-4'>Translate with IA</h2>
       <Row>
         <Col>
           <Stack gap={2}>
@@ -95,6 +60,8 @@ function App () {
               type={SectionType.TO}
               value={result}
               onChange={setResult}
+              valueFromLang={fromLang}
+              valueToLang={toLang}
             />
           </Stack>
         </Col>

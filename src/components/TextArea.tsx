@@ -1,22 +1,33 @@
 import { Form } from 'react-bootstrap'
-import { SectionType } from '../types.d'
+import { SectionType, type fromLanguage, type Language } from '../types.d'
 
 interface TextAreaProps {
   loading?: boolean
   type: SectionType
   value: string
+  valueFromLang?: fromLanguage,
+  valueToLang?: Language
   onChange: (value: string) => void
 }
 
 const commonStyles = { border: 0, height: '200px', resize: 'none' }
 
-const getPlaceholder = ({ type, loading }: { type: SectionType, loading?: boolean }) => {
+type PlaceholderProps = {
+  type: SectionType,
+  loading?: boolean,
+  valueFromLang?: fromLanguage,
+  valueToLang?: Language
+}
+
+const getPlaceholder = ({ type, loading, valueFromLang, valueToLang }: PlaceholderProps) => {
   if (type === SectionType.FROM) return 'Introducir texto'
+  if (valueFromLang === valueToLang) return 'Elige otro idioma de destino'
   if (loading === true) return 'Cargando...'
+
   return 'Traduccion'
 }
 
-export function TextArea ({ type, loading, value, onChange }: TextAreaProps) {
+export function TextArea ({ type, loading, value, valueFromLang, valueToLang, onChange }: TextAreaProps) {
   const styles = type === SectionType.FROM
     ? commonStyles
     : { ...commonStyles, backgroundColor: '#f5f5f5' }
@@ -29,7 +40,8 @@ export function TextArea ({ type, loading, value, onChange }: TextAreaProps) {
       autoFocus={type === SectionType.FROM}
       disabled={type === SectionType.TO}
       as='textarea'
-      placeholder={getPlaceholder({ type, loading })}
+      placeholder={getPlaceholder({ type, loading, valueFromLang, valueToLang })}
+      // @ts-expect-error resize none are not valid props according to types
       style={styles}
       value={value}
       onChange={handleChange}
