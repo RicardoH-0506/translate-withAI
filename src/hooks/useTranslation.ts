@@ -11,20 +11,20 @@ type UseTranslationParams = {
 export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationParams) {
   const [translatedText, setTranslateText] = useState('')
   // Aplica debounce al texto de entrada
-  const debouncedText = useDebounce(fromText, 500)
+  const debouncedText = useDebounce(fromText, 300)
 
   useEffect(() => {
     // controller to abort fetch
     const controller = new AbortController()
     const signal = controller.signal
 
-    // no call api if languages are the same
-    if (fromLang === toLang) {
+    // no call api if text is empty
+    if (!debouncedText) {
       setTranslateText('')
       return
     }
-    // no call api if text is empty
-    if (!debouncedText) {
+    // no call api if languages are the same
+    if (fromLang === toLang) {
       setTranslateText('')
       return
     }
@@ -46,6 +46,10 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
         const translatedText = data.translatedText?.[0]?.text ?? ''
         setTranslateText(translatedText)
       } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          // fetch was aborted
+          return
+        }
         setTranslateText('Translation error')
       }
     }
