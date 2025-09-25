@@ -1,7 +1,6 @@
 import { AUTO_LANGUAGE } from '../constants'
 import type { Action, fromLanguage, Language, State } from '../types.d'
-import { useEffect, useReducer } from 'react'
-import { useTranslation } from './useTranslation'
+import { useReducer } from 'react'
 
 const initialState:State = {
   fromLang: 'auto',
@@ -74,13 +73,6 @@ export function useStore () {
   const interchangeLanguages = () => dispatch({ type: 'INTERCHANGE_LANGUAGES' })
   const setFromText = (payload: string) => dispatch({ type: 'SET_FROM_TEXT', payload })
   const setResult = (payload: string) => dispatch({ type: 'SET_RESULT', payload })
-
-  // Custom hook to translate
-  const translatedText = useTranslation({ fromLang, toLang, fromText })
-
-  useEffect(() => {
-    setResult(translatedText)
-  }, [translatedText, fromText])
 
   return {
     fromLang,
