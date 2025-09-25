@@ -7,6 +7,8 @@ import { ArrowsIcons } from './components/Icons'
 import { LanguageSelector } from './components/LanguageSelector'
 import { TextArea } from './components/TextArea'
 import { SectionType } from './types.d'
+import { useEffect } from 'react'
+import { useTranslation } from './hooks/useTranslation'
 
 function App () {
   const {
@@ -21,6 +23,12 @@ function App () {
     setFromText,
     setResult
   } = useStore()
+
+  const translatedText = useTranslation({ fromLang, toLang, fromText })
+
+  useEffect(() => {
+    setResult(translatedText)
+  }, [translatedText])// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container fluid>
@@ -42,7 +50,7 @@ function App () {
         </Col>
 
         <Col xs='auto'>
-          <Button variant='link' disabled={fromLang === AUTO_LANGUAGE} onClick={interchangeLanguages}>
+          <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang} onClick={interchangeLanguages}>
             <ArrowsIcons />
           </Button>
         </Col>
