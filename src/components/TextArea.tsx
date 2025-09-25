@@ -20,11 +20,11 @@ type PlaceholderProps = {
 }
 
 const getPlaceholder = ({ type, loading, valueFromLang, valueToLang }: PlaceholderProps) => {
-  if (type === SectionType.FROM) return 'Introducir texto'
-  if (valueFromLang === valueToLang) return 'Elige otro idioma de destino'
-  if (loading === true) return 'Cargando...'
+  if (type === SectionType.FROM) return 'Introduce a text to translate'
+  if (valueFromLang === valueToLang) return 'choose different languages'
+  if (loading === true) return 'Loading...'
 
-  return 'Traduccion'
+  return 'Translation'
 }
 
 export function TextArea ({ type, loading, value, valueFromLang, valueToLang, onChange }: TextAreaProps) {
