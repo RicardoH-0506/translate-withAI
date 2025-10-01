@@ -1,7 +1,7 @@
 import { useStore } from './hooks/useStore'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Container, Row, Col, Button, Stack } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import { AUTO_LANGUAGE } from './constants'
 import { ArrowsIcons } from './components/Icons'
 import { LanguageSelector } from './components/LanguageSelector'
@@ -37,47 +37,56 @@ function App () {
   return (
     <Container fluid>
       <h2 className='text-center my-4'>Translate with IA</h2>
-      <Row>
-        <Col xs={12} md={5}>
-          <Stack gap={2}>
-            <LanguageSelector
-              type={SectionType.FROM}
-              value={fromLang}
-              onChange={setFromLang}
-            />
-            <TextArea
-              type={SectionType.FROM}
-              value={fromText}
-              onChange={setFromText}
-            />
-          </Stack>
+
+      <Row className='mb-3 align-items-center justify-content-between'>
+
+        <Col xs={5} md={5}>
+          <LanguageSelector
+            type={SectionType.FROM}
+            value={fromLang}
+            onChange={setFromLang}
+          />
         </Col>
 
-        <Col xs={12} md={2} className='buttons-container d-flex align-items-start justify-content-center'>
-          <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang || error != null} onClick={interchangeLanguages}>
+        <Col xs={2} md={2} className='d-flex justify-content-center align-items-center'>
+          <Button
+            variant='link'
+            disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang || error != null}
+            onClick={interchangeLanguages}
+          >
             <ArrowsIcons />
           </Button>
         </Col>
 
-        <Col xs={12} md={5}>
-          <Stack gap={2}>
+        <Col xs={5} md={5}>
+          <LanguageSelector
+            type={SectionType.TO}
+            value={toLang}
+            onChange={setToLang}
+          />
+        </Col>
+      </Row>
 
-            <LanguageSelector
-              type={SectionType.TO}
-              value={toLang}
-              onChange={setToLang}
-            />
-            <TextArea
-              loading={loading}
-              type={SectionType.TO}
-              value={result}
-              onChange={setResult}
-              valueFromLang={fromLang}
-              valueToLang={toLang}
-            />
-          </Stack>
+      <Row className='justify-content-between'>
+
+        <Col xs={12} md={5} className='mb-3 mb-md-0'>
+          <TextArea
+            type={SectionType.FROM}
+            value={fromText}
+            onChange={setFromText}
+          />
         </Col>
 
+        <Col xs={12} md={5}>
+          <TextArea
+            loading={loading}
+            type={SectionType.TO}
+            value={result}
+            onChange={setResult}
+            valueFromLang={fromLang}
+            valueToLang={toLang}
+          />
+        </Col>
       </Row>
     </Container>
   )
