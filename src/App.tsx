@@ -53,7 +53,7 @@ function App () {
           </Stack>
         </Col>
 
-        <Col xs={12} md={2} className='buttons-container'>
+        <Col xs={12} md={2} className='buttons-container d-flex align-items-start justify-content-center'>
           <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang || error != null} onClick={interchangeLanguages}>
             <ArrowsIcons />
           </Button>
