@@ -35,51 +35,53 @@ function App () {
   }, [translatedText, error])// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Container fluid>
-      <h2 className='text-center my-4'>Translate with IA</h2>
-      <Row>
-        <Col>
-          <Stack gap={2}>
-            <LanguageSelector
-              type={SectionType.FROM}
-              value={fromLang}
-              onChange={setFromLang}
-            />
-            <TextArea
-              type={SectionType.FROM}
-              value={fromText}
-              onChange={setFromText}
-            />
-          </Stack>
-        </Col>
+    <main className='d-md-flex flex-md-column'>
+      <Container fluid>
+        <h2 className='text-center my-4'>Translate with IA</h2>
+        <Row>
+          <Col xs={12} md={5}>
+            <Stack gap={2}>
+              <LanguageSelector
+                type={SectionType.FROM}
+                value={fromLang}
+                onChange={setFromLang}
+              />
+              <TextArea
+                type={SectionType.FROM}
+                value={fromText}
+                onChange={setFromText}
+              />
+            </Stack>
+          </Col>
 
-        <Col xs='auto'>
-          <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang || error != null} onClick={interchangeLanguages}>
-            <ArrowsIcons />
-          </Button>
-        </Col>
+          <Col xs={12} md={2} className='d-flex align-items-center justify-content-center my-3'>
+            <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang || error != null} onClick={interchangeLanguages}>
+              <ArrowsIcons />
+            </Button>
+          </Col>
 
-        <Col>
-          <Stack gap={2}>
+          <Col xs={12} md={5}>
+            <Stack gap={2}>
 
-            <LanguageSelector
-              type={SectionType.TO}
-              value={toLang}
-              onChange={setToLang}
-            />
-            <TextArea
-              loading={loading}
-              type={SectionType.TO}
-              value={result}
-              onChange={setResult}
-              valueFromLang={fromLang}
-              valueToLang={toLang}
-            />
-          </Stack>
-        </Col>
+              <LanguageSelector
+                type={SectionType.TO}
+                value={toLang}
+                onChange={setToLang}
+              />
+              <TextArea
+                loading={loading}
+                type={SectionType.TO}
+                value={result}
+                onChange={setResult}
+                valueFromLang={fromLang}
+                valueToLang={toLang}
+              />
+            </Stack>
+          </Col>
 
-      </Row>
-    </Container>
+        </Row>
+      </Container>
+    </main>
   )
 }
 
