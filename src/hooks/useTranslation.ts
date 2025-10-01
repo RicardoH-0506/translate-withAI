@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDebounce } from './useDebounce'
 import type { fromLanguage, Language } from '../types.d'
 
+const TRANSLATE_API_URL = 'https://voiceless-regine-lorem-ipsum-c3e2b4d6.koyeb.app/translate'
+
 type UseTranslationParams = {
   fromLang: fromLanguage
   toLang: Language
@@ -9,9 +11,10 @@ type UseTranslationParams = {
 }
 
 export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationParams) {
-  const [translatedText, setTranslateText] = useState('')
+  const [translatedText, setTranslateText] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
   // Aplica debounce al texto de entrada
-  const debouncedText = useDebounce(fromText, 300)
+  const debouncedText = useDebounce(fromText, 500)
 
   useEffect(() => {
     // controller to abort fetch
@@ -32,7 +35,7 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
     // call api to translate
     const fetchTranslation = async () => {
       try {
-        const response = await fetch('http://localhost:1234/translate', {
+        const response = await fetch(TRANSLATE_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -42,6 +45,9 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
           }),
           signal
         })
+        if (!response.ok) {
+          throw new Error('Error in translation request')
+        }
         const data = await response.json()
         const translatedText = data.translatedText?.[0]?.text ?? ''
         setTranslateText(translatedText)
@@ -50,7 +56,7 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
           // fetch was aborted
           return
         }
-        setTranslateText('Translation error')
+        setError(error instanceof Error ? error.message : String(error))
       }
     }
 
@@ -59,5 +65,5 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
     return () => controller.abort()
   }, [debouncedText, fromLang, toLang])
 
-  return translatedText
+  return { translatedText, error }
 }

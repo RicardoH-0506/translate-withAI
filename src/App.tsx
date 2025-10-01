@@ -24,11 +24,15 @@ function App () {
     setResult
   } = useStore()
 
-  const translatedText = useTranslation({ fromLang, toLang, fromText })
+  const { translatedText, error } = useTranslation({ fromLang, toLang, fromText })
 
   useEffect(() => {
-    setResult(translatedText)
-  }, [translatedText])// eslint-disable-line react-hooks/exhaustive-deps
+    if (error != null) {
+      setResult(error)
+    } else {
+      setResult(translatedText)
+    }
+  }, [translatedText, error])// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container fluid>
@@ -50,7 +54,7 @@ function App () {
         </Col>
 
         <Col xs='auto'>
-          <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang} onClick={interchangeLanguages}>
+          <Button variant='link' disabled={fromLang === AUTO_LANGUAGE || fromLang === toLang || error != null} onClick={interchangeLanguages}>
             <ArrowsIcons />
           </Button>
         </Col>
