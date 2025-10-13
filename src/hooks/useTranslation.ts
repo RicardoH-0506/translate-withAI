@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDebounce } from './useDebounce'
 import type { fromLanguage, Language } from '../types.d'
 
-const TRANSLATE_API_URL = 'https://voiceless-regine-lorem-ipsum-c3e2b4d6.koyeb.app/translate'
+const TRANSLATE_API_URL = 'https://clon-google-t-backend.vercel.app/translate'
 
 type UseTranslationParams = {
   fromLang: fromLanguage
