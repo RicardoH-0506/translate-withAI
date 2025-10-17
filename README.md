@@ -59,7 +59,7 @@ El estado se gestiona mediante un reducer con las siguientes acciones: [13](#0-1
 
 ## 🌍 Idiomas Soportados
 
-La aplicación soporta múltiples idiomas definidos en `src/constants.ts`, incluyendo inglés, español, alemán, francés, y más. [14](#0-13) 
+La aplicación soporta múltiples idiomas definidos en `src/constants.ts`, incluyendo inglés, español, alemán, y más. [14](#0-13) 
 
 ## 📄 Licencia
 
