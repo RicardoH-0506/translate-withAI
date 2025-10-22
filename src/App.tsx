@@ -36,7 +36,7 @@ function App () {
 
   return (
     <Container fluid>
-      <h2 className='text-center my-4'>Translate with IA</h2>
+      <h2 className='text-center my-4'>Translate with AI</h2>
 
       <Row className='mb-3 align-items-center justify-content-between'>
 
