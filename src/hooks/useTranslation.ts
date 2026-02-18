@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDebounce } from './useDebounce'
 import type { fromLanguage, Language } from '../types.d'
 
-const TRANSLATE_API_URL = 'https://translate-withia-backend.vercel.app/translate'
+// const TRANSLATE_API_URL = 'https://translate-withia-backend.vercel.app/translate'
+const TRANSLATE_API_URL = 'http://localhost:1234/translate'
 
 type UseTranslationParams = {
   fromLang: fromLanguage
@@ -49,7 +50,7 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
           throw new Error('Error in translation request')
         }
         const data = await response.json()
-        const translatedText = data.translatedText?.[0]?.text ?? ''
+        const translatedText = data.translatedText ?? ''
         setTranslateText(translatedText)
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') {
