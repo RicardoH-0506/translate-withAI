@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDebounce } from './useDebounce'
 import type { fromLanguage, Language } from '../types.d'
 
-// const TRANSLATE_API_URL = 'https://translate-withia-backend.vercel.app/translate'
-const TRANSLATE_API_URL = 'http://localhost:1234/translate'
+const TRANSLATE_API_URL = import.meta.env.VITE_TRANSLATE_API_URL || 'http://localhost:1234/translate'
 
 type UseTranslationParams = {
   fromLang: fromLanguage
