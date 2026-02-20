@@ -14,7 +14,7 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
   const [translatedText, setTranslateText] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   // Aplica debounce al texto de entrada
-  const debouncedText = useDebounce(fromText, 500)
+  const debouncedText = useDebounce(fromText, 300)
 
   useEffect(() => {
     // controller to abort fetch
@@ -49,7 +49,7 @@ export function useTranslation ({ fromLang, toLang, fromText }: UseTranslationPa
           throw new Error('Error in translation request')
         }
         const data = await response.json()
-        const translatedText = data.translatedText ?? ''
+        const translatedText = data.data?.translatedText ?? ''
         setTranslateText(translatedText)
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') {
